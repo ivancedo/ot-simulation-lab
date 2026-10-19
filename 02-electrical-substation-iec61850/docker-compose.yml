@@ -1,0 +1,43 @@
+networks:
+  sim02:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.2.0/24
+
+x-py: &py
+  image: python:3.12-slim
+  working_dir: /app
+  volumes:
+    - .:/app
+  restart: unless-stopped
+
+services:
+  merging_unit:
+    <<: *py
+    container_name: s02_merging_unit
+    hostname: merging-unit
+    command: python merging_unit.py
+    networks: { sim02: { ipv4_address: 172.30.2.10 } }
+
+  protection_relay:
+    <<: *py
+    container_name: s02_relay
+    hostname: protection-relay
+    command: python protection_relay.py
+    networks: { sim02: { ipv4_address: 172.30.2.11 } }
+
+  pmu:
+    <<: *py
+    container_name: s02_pmu
+    hostname: pmu
+    command: python pmu.py
+    networks: { sim02: { ipv4_address: 172.30.2.12 } }
+
+  bay_controller:
+    <<: *py
+    container_name: s02_bay_controller
+    hostname: bay-controller
+    command: python bay_controller.py
+    depends_on: [merging_unit, protection_relay, pmu]
+    networks: { sim02: { ipv4_address: 172.30.2.20 } }

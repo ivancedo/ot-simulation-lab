@@ -1,0 +1,38 @@
+networks:
+  sim04:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.4.0/24
+
+x-py: &py
+  image: python:3.12-slim
+  working_dir: /app
+  volumes:
+    - .:/app
+  restart: unless-stopped
+
+services:
+  meter_1:
+    <<: *py
+    container_name: s04_meter_1
+    hostname: meter-1
+    environment: { METER_ID: "LGZ1030001", BASE_W: "2200" }
+    command: python meter.py
+    networks: { sim04: { ipv4_address: 172.30.4.10 } }
+
+  meter_2:
+    <<: *py
+    container_name: s04_meter_2
+    hostname: meter-2
+    environment: { METER_ID: "LGZ1030002", BASE_W: "3600" }
+    command: python meter.py
+    networks: { sim04: { ipv4_address: 172.30.4.11 } }
+
+  head_end:
+    <<: *py
+    container_name: s04_head_end
+    hostname: head-end
+    command: python head_end.py
+    depends_on: [meter_1, meter_2]
+    networks: { sim04: { ipv4_address: 172.30.4.20 } }

@@ -1,0 +1,50 @@
+networks:
+  sim01:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.1.0/24
+
+x-py: &py
+  image: python:3.12-slim
+  working_dir: /app
+  volumes:
+    - .:/app
+  restart: unless-stopped
+
+services:
+  intake_pump:
+    <<: *py
+    container_name: s01_intake_pump
+    hostname: intake-pump
+    command: python intake_pump.py
+    networks: { sim01: { ipv4_address: 172.30.1.10 } }
+
+  chlorine_dosing:
+    <<: *py
+    container_name: s01_chlorine
+    hostname: chlorine-dosing
+    command: python chlorine_dosing.py
+    networks: { sim01: { ipv4_address: 172.30.1.11 } }
+
+  clearwell:
+    <<: *py
+    container_name: s01_clearwell
+    hostname: clearwell
+    command: python clearwell.py
+    networks: { sim01: { ipv4_address: 172.30.1.12 } }
+
+  distribution_pump:
+    <<: *py
+    container_name: s01_distribution_tls
+    hostname: distribution-pump
+    command: python distribution_pump_tls.py
+    networks: { sim01: { ipv4_address: 172.30.1.13 } }
+
+  scada:
+    <<: *py
+    container_name: s01_scada
+    hostname: scada
+    command: python scada.py
+    depends_on: [intake_pump, chlorine_dosing, clearwell, distribution_pump]
+    networks: { sim01: { ipv4_address: 172.30.1.20 } }

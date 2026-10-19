@@ -1,0 +1,44 @@
+networks:
+  sim10:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.10.0/24
+
+x-py: &py
+  image: python:3.12-slim
+  working_dir: /app
+  volumes:
+    - .:/app
+  restart: unless-stopped
+
+services:
+  ptp_grandmaster:
+    <<: *py
+    container_name: s10_ptp_grandmaster
+    hostname: ptp-grandmaster
+    command: python ptp_grandmaster.py
+    networks: { sim10: { ipv4_address: 172.30.10.10 } }
+
+  ptp_slave:
+    <<: *py
+    container_name: s10_ptp_slave
+    hostname: ptp-slave
+    command: python ptp_slave.py
+    depends_on: [ptp_grandmaster]
+    networks: { sim10: { ipv4_address: 172.30.10.11 } }
+
+  ntp_server:
+    <<: *py
+    container_name: s10_ntp_server
+    hostname: ntp-server
+    command: python ntp_server.py
+    networks: { sim10: { ipv4_address: 172.30.10.12 } }
+
+  ntp_client:
+    <<: *py
+    container_name: s10_ntp_client
+    hostname: ntp-client
+    command: python ntp_client.py
+    depends_on: [ntp_server]
+    networks: { sim10: { ipv4_address: 172.30.10.13 } }

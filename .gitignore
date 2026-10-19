@@ -1,11 +1,3 @@
-detection/zeek/logs/*
-!detection/zeek/logs/.gitkeep
-
 __pycache__/
 *.pyc
-
-*.pcap
-*.pcapng
-
-# OS
-.DS_Store
+*.pyo

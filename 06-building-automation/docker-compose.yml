@@ -1,0 +1,50 @@
+networks:
+  sim06:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.6.0/24
+
+x-py: &py
+  image: python:3.12-slim
+  working_dir: /app
+  volumes:
+    - .:/app
+  restart: unless-stopped
+
+services:
+  bacnet_ahu:
+    <<: *py
+    container_name: s06_bacnet_ahu
+    hostname: bacnet-ahu
+    command: python bacnet_ahu.py
+    networks: { sim06: { ipv4_address: 172.30.6.10 } }
+
+  knx_gateway:
+    <<: *py
+    container_name: s06_knx_gateway
+    hostname: knx-gateway
+    command: python knx_gateway.py
+    networks: { sim06: { ipv4_address: 172.30.6.11 } }
+
+  lon_node:
+    <<: *py
+    container_name: s06_lon_node
+    hostname: lon-node
+    command: python lon_node.py
+    networks: { sim06: { ipv4_address: 172.30.6.12 } }
+
+  fox_supervisor:
+    <<: *py
+    container_name: s06_fox_supervisor
+    hostname: fox-supervisor
+    command: python fox_supervisor.py
+    networks: { sim06: { ipv4_address: 172.30.6.13 } }
+
+  bms_client:
+    <<: *py
+    container_name: s06_bms_client
+    hostname: bms-client
+    command: python bms_client.py
+    depends_on: [bacnet_ahu, knx_gateway, lon_node, fox_supervisor]
+    networks: { sim06: { ipv4_address: 172.30.6.20 } }

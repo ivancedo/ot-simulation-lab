@@ -1,0 +1,54 @@
+networks:
+  sim08:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.8.0/24
+
+x-py: &py
+  image: python:3.12-slim
+  working_dir: /app
+  volumes:
+    - .:/app
+  restart: unless-stopped
+
+services:
+  drive_ethercat:
+    <<: *py
+    container_name: s08_drive_ethercat
+    hostname: drive-ethercat
+    environment: { PROTO: ethercat, AXIS: X }
+    command: python drive.py
+    networks: { sim08: { ipv4_address: 172.30.8.10 } }
+
+  drive_sercos:
+    <<: *py
+    container_name: s08_drive_sercos
+    hostname: drive-sercos
+    environment: { PROTO: sercos, AXIS: Y }
+    command: python drive.py
+    networks: { sim08: { ipv4_address: 172.30.8.11 } }
+
+  drive_powerlink:
+    <<: *py
+    container_name: s08_drive_powerlink
+    hostname: drive-powerlink
+    environment: { PROTO: powerlink, AXIS: Z }
+    command: python drive.py
+    networks: { sim08: { ipv4_address: 172.30.8.12 } }
+
+  drive_mechatrolink:
+    <<: *py
+    container_name: s08_drive_mechatrolink
+    hostname: drive-mechatrolink
+    environment: { PROTO: mechatrolink, AXIS: W }
+    command: python drive.py
+    networks: { sim08: { ipv4_address: 172.30.8.13 } }
+
+  motion_controller:
+    <<: *py
+    container_name: s08_motion_controller
+    hostname: motion-controller
+    command: python motion_controller.py
+    depends_on: [drive_ethercat, drive_sercos, drive_powerlink, drive_mechatrolink]
+    networks: { sim08: { ipv4_address: 172.30.8.20 } }

@@ -1,68 +1,47 @@
-# OT Modbus/TCP Lab
+# OT / ICS Protocol Simulation Lab
 
-A small lab that simulates a multi-stage batch process over Modbus/TCP, with a
-container to probe it and a Zeek container to watch for that probing. The repo
-is split into three parts: `simulation/` (the plant), `attack/` (the probe) and
-`detection/` (Zeek).
+A collection of **14 self-contained OT/ICS network simulations** that together
+implement every network-addressable industrial protocol in the SANS ICS
+*Industrial Protocols Cheat Sheet* at least once. Each simulation models a
+realistic industrial process, speaks the real protocol wire framing, and runs
+independently with a single `docker compose up`.
 
-## Docker and network
+Every service runs on the stock `python:3.12-slim` image with the folder
+volume-mounted — **pure Python standard library, no build step, no third-party
+packages**. Protocol framing (MBAP, DNP3 link + CRC, IEC-104 APCI, DLMS wrapper,
+HART-IP, BVLC, KNXnet/IP cEMI, EtherNet/IP encapsulation, OPC UA-TCP, PTP, NTP,
+DoIP, TPKT/MMS, etc.) is implemented from scratch so captures look like the real
+thing while the lab stays dependency-free and reproducible.
 
-Everything runs on one Docker bridge, `br-otlab` (`172.20.0.0/24`), marked
-`internal` so the lab can't reach the outside world.
 
-| Container     | Address       | What it is                                      |
-|---------------|---------------|-------------------------------------------------|
-| conveyor      | 172.20.0.10   | slave - conveyor motor                          |
-| temperature   | 172.20.0.11   | slave - temperature sensor                      |
-| heater        | 172.20.0.12   | slave - heater                                  |
-| pressure      | 172.20.0.13   | slave - pressure sensor                         |
-| relief        | 172.20.0.14   | slave - relief valve                            |
-| master        | 172.20.0.20   | the controller that drives the whole line       |
-| attacker      | 172.20.0.30   | idle box for running `recon.py` by hand         |
-| zeek          | host          | sniffs `br-otlab` and logs to `detection/zeek/logs` |
+## Simulations
 
-Zeek runs with `network_mode: host` because a sniffer sitting *on* a bridge
-can't see the other containers' traffic - the bridge only forwards each frame
-to its destination. From the host it sees everything.
+| # | Simulation | Industrial process | Protocols |
+|---|-----------|--------------------|-----------|
+| 01 | [water-treatment-modbus](01-water-treatment-modbus/) | Potable water treatment | Modbus/TCP, Modbus/TLS |
+| 02 | [electrical-substation-iec61850](02-electrical-substation-iec61850/) | Digital substation bay | IEC 61850 GOOSE / GSSE / SV / MMS, IEEE C37.118 |
+| 03 | [grid-rtu-dnp3-iec104](03-grid-rtu-dnp3-iec104/) | Power-grid telemetry | DNP3/TCP, IEC 60870-5-104 |
+| 04 | [smart-metering-dlms](04-smart-metering-dlms/) | AMI smart metering | DLMS/COSEM |
+| 05 | [oil-gas-wellsite-wits-hart](05-oil-gas-wellsite-wits-hart/) | Drilling wellsite | WITS Level 0, HART-IP |
+| 06 | [building-automation](06-building-automation/) | Commercial building BMS | BACnet/IP, KNXnet/IP, LonTalk, Fox (Niagara) |
+| 07 | [discrete-mfg-ethernetip-profinet](07-discrete-mfg-ethernetip-profinet/) | Robotic assembly cell | EtherNet/IP (CIP), PROFINET |
+| 08 | [motion-control-fieldbus](08-motion-control-fieldbus/) | Multi-axis motion/CNC | EtherCAT, Sercos III, Ethernet Powerlink, MECHATROLINK-III |
+| 09 | [opc-aggregation-gateway](09-opc-aggregation-gateway/) | Plant historian gateway | OPC UA Binary, OPC XML-DA, classic OPC DA |
+| 10 | [time-sync-infrastructure](10-time-sync-infrastructure/) | Plant/substation timing | PTP (IEEE 1588), NTP, PTP-over-UDP |
+| 11 | [iccp-tase2-control-center](11-iccp-tase2-control-center/) | Inter-control-center exchange | ICCP / TASE.2 (MMS) |
+| 12 | [process-instrumentation-ff](12-process-instrumentation-ff/) | Flow control loop | Foundation Fieldbus HSE |
+| 13 | [vehicle-diagnostics-doip](13-vehicle-diagnostics-doip/) | Automotive diagnostics bench | DoIP, UDS |
+| 14 | [plant-realtime-controllers](14-plant-realtime-controllers/) | DCS real-time network | FL-net, Vnet/IP, TCnet, EPA |
+
+## Running a simulation
+
+Each directory is independent:
 
 ```bash
-docker compose up -d --build          # start the lab
-docker compose logs -f master         # watch the batch run
-docker exec -it attacker python recon.py       # probe the stations
-docker exec zeek tail -f /logs/notice.log      # see Zeek flag the probe
+cd 01-water-treatment-modbus
+docker compose up
+docker compose down
 ```
 
-## The Modbus simulation
-
-Each of the five stations is a Modbus **slave** (server): it holds the data and
-answers requests, but never starts a conversation. The **master**
-(`simulation/masters/master.py`) is the only **client** - it does all the
-reading and writing. So every arrow on the bus starts at the master and points
-at a station; the stations never talk to each other.
-
-Each station exposes the same small map:
-
-- **IR0** - its one reading (position, temperature, pressure, ...). The station
-  updates this itself every second; the master only reads it.
-- **coils** - its commands (motor, heat, valve, ...). The master writes these.
-- **DI** - status flags the station raises when a reading crosses a threshold
-  (`IN_PLACE`, `AT_TEMP`, `AT_PRESSURE`, ...).
-
-The master runs a recipe as a small state machine:
-
-```
-IDLE ──part in place──▶ HEATING ──at soak temp──▶ PRESSURIZING
-  ▲                                                     │
-  └──────── vented ◀── RELEASE ◀── at full pressure ────┘
-```
-
-In each state the master turns on the coils that state needs (run the conveyor,
-enable the heater, open the valve) and watches one station's reading to decide
-when to move on. Because every step waits on the reading from the stage before
-it, the five stations behave as one chained process rather than five
-independent loops - that's the point of the lab.
-
-The attacker speaks the same protocol from off to the side: `recon.py` just
-reads a register from each station to prove it's reachable. Zeek knows the
-master is the only host that should be reading the line, so a read from any
-other address shows up in `notice.log`.
+Each simulation uses its own `172.30.<n>.0/24` subnet, so several can run at
+once. Watch the SCADA/master/client container's logs for the live process state.

@@ -1,0 +1,44 @@
+networks:
+  sim07:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.7.0/24
+
+x-py: &py
+  image: python:3.12-slim
+  working_dir: /app
+  volumes:
+    - .:/app
+  restart: unless-stopped
+
+services:
+  enip_adapter:
+    <<: *py
+    container_name: s07_enip_adapter
+    hostname: enip-adapter
+    command: python enip_adapter.py
+    networks: { sim07: { ipv4_address: 172.30.7.10 } }
+
+  enip_scanner:
+    <<: *py
+    container_name: s07_enip_scanner
+    hostname: enip-scanner
+    command: python enip_scanner.py
+    depends_on: [enip_adapter]
+    networks: { sim07: { ipv4_address: 172.30.7.11 } }
+
+  profinet_device:
+    <<: *py
+    container_name: s07_profinet_device
+    hostname: profinet-device
+    command: python profinet_device.py
+    networks: { sim07: { ipv4_address: 172.30.7.12 } }
+
+  profinet_controller:
+    <<: *py
+    container_name: s07_profinet_controller
+    hostname: profinet-controller
+    command: python profinet_controller.py
+    depends_on: [profinet_device]
+    networks: { sim07: { ipv4_address: 172.30.7.13 } }

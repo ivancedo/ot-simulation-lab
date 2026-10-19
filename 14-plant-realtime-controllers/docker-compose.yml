@@ -1,0 +1,50 @@
+networks:
+  sim14:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.14.0/24
+
+x-py: &py
+  image: python:3.12-slim
+  working_dir: /app
+  volumes:
+    - .:/app
+  restart: unless-stopped
+
+services:
+  flnet_node:
+    <<: *py
+    container_name: s14_flnet_node
+    hostname: flnet-node
+    command: python flnet_node.py
+    networks: { sim14: { ipv4_address: 172.30.14.10 } }
+
+  tcnet_node:
+    <<: *py
+    container_name: s14_tcnet_node
+    hostname: tcnet-node
+    command: python tcnet_node.py
+    networks: { sim14: { ipv4_address: 172.30.14.11 } }
+
+  epa_device:
+    <<: *py
+    container_name: s14_epa_device
+    hostname: epa-device
+    command: python epa_device.py
+    networks: { sim14: { ipv4_address: 172.30.14.12 } }
+
+  vnet_station:
+    <<: *py
+    container_name: s14_vnet_station
+    hostname: vnet-station
+    command: python vnet_station.py
+    networks: { sim14: { ipv4_address: 172.30.14.13 } }
+
+  plant_controller:
+    <<: *py
+    container_name: s14_plant_controller
+    hostname: plant-controller
+    command: python plant_controller.py
+    depends_on: [flnet_node, tcnet_node, epa_device, vnet_station]
+    networks: { sim14: { ipv4_address: 172.30.14.20 } }

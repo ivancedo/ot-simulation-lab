@@ -1,0 +1,45 @@
+networks:
+  sim13:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.13.0/24
+
+x-py: &py
+  image: python:3.12-slim
+  working_dir: /app
+  volumes:
+    - .:/app
+  restart: unless-stopped
+
+services:
+  doip_gateway:
+    <<: *py
+    container_name: s13_doip_gateway
+    hostname: doip-gateway
+    command: python doip_gateway.py
+    networks: { sim13: { ipv4_address: 172.30.13.10 } }
+
+  ecu_engine:
+    <<: *py
+    container_name: s13_ecu_engine
+    hostname: ecu-engine
+    environment: { ECU_NAME: engine, INT_PORT: "22001", VIN: "WVWZZZ1KZAW000001" }
+    command: python ecu.py
+    networks: { sim13: { ipv4_address: 172.30.13.11 } }
+
+  ecu_body:
+    <<: *py
+    container_name: s13_ecu_body
+    hostname: ecu-body
+    environment: { ECU_NAME: body, INT_PORT: "22002", VIN: "WVWZZZ1KZAW000001" }
+    command: python ecu.py
+    networks: { sim13: { ipv4_address: 172.30.13.12 } }
+
+  tester:
+    <<: *py
+    container_name: s13_tester
+    hostname: tester
+    command: python tester.py
+    depends_on: [doip_gateway, ecu_engine, ecu_body]
+    networks: { sim13: { ipv4_address: 172.30.13.20 } }
