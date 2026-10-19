@@ -94,9 +94,9 @@ services:
       - NET_RAW
       - NET_ADMIN
     volumes:
-      - ./detection/zeek/logs:/logs
-      - ./detection/zeek/local.zeek:/usr/local/zeek/share/zeek/site/local.zeek:ro
-      - ./detection/zeek/recon-detect.zeek:/usr/local/zeek/share/zeek/site/recon-detect.zeek:ro
+      - ./zeek/logs:/logs
+      - ./zeek/local.zeek:/usr/local/zeek/share/zeek/site/local.zeek:ro
+      - ./zeek/recon-detect.zeek:/usr/local/zeek/share/zeek/site/recon-detect.zeek:ro
     working_dir: /logs
     command: ["zeek", "-C", "-i", "br-otlab", "local"]
     depends_on:

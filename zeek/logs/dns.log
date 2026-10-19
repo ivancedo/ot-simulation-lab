@@ -1,0 +1,56 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	dns
+#open	2026-10-19-10-55-43
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	proto	trans_id	rtt	query	qclass	qclass_name	qtype	qtype_name	rcode	rcode_name	AA	TC	RD	RA	Z	answers	TTLs	rejected	opcode	opcode_name
+#types	time	string	addr	port	addr	port	enum	count	interval	string	count	string	count	string	count	string	bool	bool	bool	bool	count	vector[string]	vector[interval]	bool	count	string
+1792407343.679324	CvJlH03fyTJtXOzhCk	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	1.0.20.172.in-addr.arpa	-	-	-	-	0	NOERROR	T	F	F	F	0	ivan-hp.local,172.20.0.1	120.000000,120.000000	F	0	query
+1792407344.115168	C8eIVp4fmMkOGDAQZd	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407344.283369	C8eIVp4fmMkOGDAQZd	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	ivan-hp.local	1	C_INTERNET	255	*	-	-	F	F	F	F	0	-	-	F	0	query
+1792407344.283419	CvJlH03fyTJtXOzhCk	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	ivan-hp.local	1	C_INTERNET	255	*	-	-	F	F	F	F	0	-	-	F	0	query
+1792407344.283542	CvJlH03fyTJtXOzhCk	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	ivan-hp.local	-	-	-	-	0	NOERROR	T	F	F	F	0	172.20.0.1	120.000000	F	0	query
+1792407344.535118	C8eIVp4fmMkOGDAQZd	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	ivan-hp.local	1	C_INTERNET	255	*	-	-	F	F	F	F	0	-	-	F	0	query
+1792407344.535216	CvJlH03fyTJtXOzhCk	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	ivan-hp.local	1	C_INTERNET	255	*	-	-	F	F	F	F	0	-	-	F	0	query
+1792407344.591239	CvJlH03fyTJtXOzhCk	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407344.785734	C8eIVp4fmMkOGDAQZd	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	ivan-hp.local	1	C_INTERNET	255	*	-	-	F	F	F	F	0	-	-	F	0	query
+1792407344.785784	CvJlH03fyTJtXOzhCk	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	ivan-hp.local	1	C_INTERNET	255	*	-	-	F	F	F	F	0	-	-	F	0	query
+1792407344.785898	CvJlH03fyTJtXOzhCk	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	ivan-hp.local	-	-	-	-	0	NOERROR	T	F	F	F	0	172.20.0.1	120.000000	F	0	query
+1792407344.986322	CvJlH03fyTJtXOzhCk	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	2.8.b.2.0.b.e.f.f.f.d.2.8.1.c.5.0.0.0.0.0.0.0.0.0.0.0.0.0.8.e.f.ip6.arpa	-	-	-	-	0	NOERROR	T	F	F	F	0	ivan-hp.local,fe80::5c18:2dff:feb0:2b82	120.000000,120.000000	F	0	query
+1792407344.986395	C8eIVp4fmMkOGDAQZd	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	2.8.b.2.0.b.e.f.f.f.d.2.8.1.c.5.0.0.0.0.0.0.0.0.0.0.0.0.0.8.e.f.ip6.arpa	-	-	-	-	0	NOERROR	T	F	F	F	0	ivan-hp.local,fe80::5c18:2dff:feb0:2b82	120.000000,120.000000	F	0	query
+1792407345.115569	C8eIVp4fmMkOGDAQZd	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407345.898633	CvJlH03fyTJtXOzhCk	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	1.0.20.172.in-addr.arpa	-	-	-	-	0	NOERROR	T	F	F	F	0	ivan-hp.local,172.20.0.1	120.000000,120.000000	F	0	query
+1792407346.205868	CvJlH03fyTJtXOzhCk	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	2.8.b.2.0.b.e.f.f.f.d.2.8.1.c.5.0.0.0.0.0.0.0.0.0.0.0.0.0.8.e.f.ip6.arpa	-	-	-	-	0	NOERROR	T	F	F	F	0	ivan-hp.local,fe80::5c18:2dff:feb0:2b82	120.000000,120.000000	F	0	query
+1792407346.205971	C8eIVp4fmMkOGDAQZd	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	2.8.b.2.0.b.e.f.f.f.d.2.8.1.c.5.0.0.0.0.0.0.0.0.0.0.0.0.0.8.e.f.ip6.arpa	-	-	-	-	0	NOERROR	T	F	F	F	0	ivan-hp.local,fe80::5c18:2dff:feb0:2b82	120.000000,120.000000	F	0	query
+1792407347.115711	C8eIVp4fmMkOGDAQZd	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407348.425028	CvJlH03fyTJtXOzhCk	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	2.8.b.2.0.b.e.f.f.f.d.2.8.1.c.5.0.0.0.0.0.0.0.0.0.0.0.0.0.8.e.f.ip6.arpa	-	-	-	-	0	NOERROR	T	F	F	F	0	ivan-hp.local,fe80::5c18:2dff:feb0:2b82	120.000000,120.000000	F	0	query
+1792407348.425113	C8eIVp4fmMkOGDAQZd	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	2.8.b.2.0.b.e.f.f.f.d.2.8.1.c.5.0.0.0.0.0.0.0.0.0.0.0.0.0.8.e.f.ip6.arpa	-	-	-	-	0	NOERROR	T	F	F	F	0	ivan-hp.local,fe80::5c18:2dff:feb0:2b82	120.000000,120.000000	F	0	query
+1792407348.591709	CvJlH03fyTJtXOzhCk	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407351.116616	C8eIVp4fmMkOGDAQZd	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407356.594146	CvJlH03fyTJtXOzhCk	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407359.116476	C8eIVp4fmMkOGDAQZd	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407372.597464	CvJlH03fyTJtXOzhCk	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407375.117474	CAk5ID4qU5o4AfN606	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407404.601180	CIU1yf3t4IfKpDtCka	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407407.118234	CTVOXscWCLsoK9jTe	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407468.603862	CPRIp1B2u7WziYaM9	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407471.118473	CONYNx34iEPrPFaoYj	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407596.607083	CDzTMe4K4hNKDdyQ3	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407599.119534	CzSGpe3IqecrQwrnb	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407673.798956	CDva1g4aRvFr1pHtN4	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	_webdav._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407673.799013	C7aHqX2Evy6M17NJjl	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	_webdav._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407674.800949	CDva1g4aRvFr1pHtN4	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	_webdav._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407674.801106	C7aHqX2Evy6M17NJjl	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	_webdav._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407676.803288	CDva1g4aRvFr1pHtN4	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	_webdav._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407676.803367	C7aHqX2Evy6M17NJjl	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	_webdav._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407680.807388	CDva1g4aRvFr1pHtN4	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	_webdav._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407680.807429	C7aHqX2Evy6M17NJjl	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	_webdav._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407688.815234	CDva1g4aRvFr1pHtN4	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	_webdav._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407688.815331	C7aHqX2Evy6M17NJjl	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	_webdav._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407704.816420	C1bxGw4P1nOiyCymmd	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	_webdav._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407704.816506	Cm4E7pbYJ3rYgw738	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	_webdav._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407736.828526	CcYXCV3ElTS3HRZEg7	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	_webdav._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407736.828611	CqQ45n1RcF8GQVn5hb	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	_webdav._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407800.838549	C51lu7400TjFdKaCfg	fe80::5c18:2dff:feb0:2b82	5353	ff02::fb	5353	udp	0	-	_webdav._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1792407800.838645	CzEQlX24gq7KukM8Rb	172.20.0.1	5353	224.0.0.251	5353	udp	0	-	_webdav._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
