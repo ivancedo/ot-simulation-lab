@@ -1,6 +1,6 @@
-# OT / ICS Protocol Simulation Lab
+# OT Protocol Simulation Lab
 
-A collection of **14 self-contained OT/ICS network simulations** that together
+A collection of **14 self-contained OT network simulations** that together
 implement every network-addressable industrial protocol in the SANS ICS
 *Industrial Protocols Cheat Sheet* at least once. Each simulation models a
 realistic industrial process, speaks the real protocol wire framing, and runs
